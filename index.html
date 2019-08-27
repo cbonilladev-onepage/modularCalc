@@ -5,47 +5,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <title>calcApp</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="container">
         <div class="calculator">
+
             <div class="results">
-                <div class="history">
-                    <p class="history-value"></p>
-                </div>
-                <div class="output">
-                    <p class="output-value"></p>
-                </div>
+                <input type="text" class="history" value="" disabled />
+                <input type="text" class="output" value="" disabled />
             </div>
-            <div class="keyboard">
-                <button class="operator" id="clear">C</button>
-                <button class="operator" id="backspace">CE</button>
-                <button class="operator" id="%">%</button>
-                <button class="operator" id="/">&#247;</button>
-                <button class="number" id="7">7</button>
-                <button class="number" id="8">8</button>
-                <button class="number" id="9">9</button>
-                <button class="operator" id="*">&times;</button>
-                <button class="number" id="4">4</button>
-                <button class="number" id="5">5</button>
-                <button class="number" id="6">6</button>
-                <button class="operator" id="-">-</button>
-                <button class="number" id="1">1</button>
-                <button class="number" id="2">2</button>
-                <button class="number" id="3">3</button>
-                <button class="operator" id="+">+</button>
-                <button class="empty" id="empty"></button>
-                <button class="number" id="0">0</button>
-                <button class="number" id=".">.</button>
-                <button class="operator" id="=">=</button>
+
+            <div class="calculator-keys">
+
+                <!--ROW 1-->
+                <button type="button" class="all-clear" value="all-clear">C</button>
+                <button type="button" class="backspace" id="backspace" value="backspace">CE</button>
+                <button type="button" class="operator" id="%">&#37;</button>
+                <button type="button" class="operator" value="/">&divide;</button>
+
+
+                <!--ROW 2-->
+                <button type="button" class="number" value="7">7</button>
+                <button type="button" class="number" value="8">8</button>
+                <button type="button" class="number" value="9">9</button>
+                <button type="button" class="operator" value="*">&times;</button>
+
+                <!--ROW 3-->
+                <button type="button" class="number" value="4">4</button>
+                <button type="button" class="number" value="5">5</button>
+                <button type="button" class="number" value="6">6</button>
+                <button type="button" class="operator" value="-">-</button>
+
+                <!--ROW 4-->
+                <button type="button" class="number" value="1">1</button>
+                <button type="button" class="number" value="2">2</button>
+                <button type="button" class="number" value="3">3</button>
+                <button type="button" class="operator" value="+">+</button>
+
+                <!--ROW 5-->
+                <button type="button" class="empty" value=""></button>
+                <button type="button" class="number" value="0">0</button>
+                <button type="button" class="decimal" value=".">.</button>
+                <button type="button" class="equal-sign operator" value="=">=</button>
             </div>
         </div>
-        </container>
-        <script src="script.js"></script>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>

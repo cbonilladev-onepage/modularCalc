@@ -6,6 +6,11 @@ html, body {
     /* background-color: #fff; */
 }
 
+input[type="text"] {
+    background: transparent;
+    border: none;
+}
+
 .container {
     min-height: 100%;
     display: flex;
@@ -34,6 +39,7 @@ html, body {
     padding-top: 20px;
     font-size: 15px;
     color: #747d8c;
+    width: 280px;
 }
 
 .output {
@@ -41,13 +47,14 @@ html, body {
     height: 60px;
     margin: 10px 20px;
     font-size: 30px;
+    width: 280px;
 }
 
-.keyboard {
+.calculator-keys {
     height: 400px;
 }
 
-.operator, .number, .empty {
+.operator, .number, .empty, body > div > div > div.calculator-keys > button.decimal, .all-clear, .backspace {
     width: 50px;
     height: 50px;
     margin: 15px;
@@ -59,19 +66,19 @@ html, body {
     background-color: #ced6e0;
 }
 
-.number, .empty {
+.number, .empty, body > div > div > div.calculator-keys > button.decimal {
     background-color: #dfe4ea;
 }
 
-.number, .operator {
+.number, .operator, body > div > div > div.calculator-keys > button.decimal, .backspace {
     cursor: pointer;
 }
 
-.operator:active, .number:active {
+.operator:active, .number:active, body > div > div > div.calculator-keys > button.decimal:active, .all-clear:active, .equal-sign.operator:active, .decimal:active, .backspace:active {
     font-size: 13px;
 }
 
-.operator:focus, .number:focus, .empty:focus {
+.operator:focus, .number:focus, .empty:focus, .all-clear:focus, .decimal:focus, .decimal:focus, .backspace:focus  {
     outline: 0;
 }
 
@@ -91,7 +98,7 @@ button:nth-child(16) {
     font-size: 20px;
     background-color: #1e90ff;
 }
-button:nth-child(20) {
+button.equal-sign.operator {
     font-size: 20px;
     background-color: #2ed573;
 }

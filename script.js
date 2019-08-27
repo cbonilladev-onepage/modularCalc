@@ -1,97 +1,132 @@
-function getHistory() {
-    return document.querySelector(".history-value").innerText;
+const calculator = {
+  displayValue: '0',
+  historyValue: '',
+  firstOperand: null,
+  waitingForSecondOperand: false,
+  operator: null,
+};
+
+function inputDigit(digit) {
+  const { displayValue, waitingForSecondOperand } = calculator;
+
+  if (waitingForSecondOperand === true) {
+    calculator.displayValue = digit;
+    calculator.waitingForSecondOperand = false;
+  } else {
+    calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
+  }
 }
 
-function printHistory(num) {
-    document.querySelector(".history-value").innerText = num;
-}
+function inputDecimal(dot) {
+  if (calculator.waitingForSecondOperand === true) return;
 
-function getOutput() {
-    return document.querySelector(".output-value").innerText;
-}
-
-function printOutput(num) {
-    if (num == "") {
-        document.querySelector(".output-value").innerText = num;
-    } else {
-        document.querySelector(".output-value").innerText = getFormattedNumber(num);
-    }
-}
-
-function getFormattedNumber(num) {
-    if(num == "-") {
-        return "";
-    }
-    var n = Number(num);
-    var value = n.toLocaleString("en");
-    return value;
-}
-
-function reverseNumberFormat(num) {
-    return Number(num.replace(/,/g, ''));
-}
-
-var operator = document.getElementsByClassName("operator");
-for (var i = 0; i < operator.length; i++) {
-    operator[i].addEventListener('click', function () {
-
-        if (this.id == "clear") {
-            printHistory("");
-            printOutput("");
-        }
-        else if (this.id == "backspace") {
-            var output = reverseNumberFormat(getOutput()).toString();
-            if (output) {
-                output = output.substr(0, output.length - 1);
-                printOutput(output);
-            }
-        } 
-        else {
-            var output = getOutput();
-            var history = getHistory();
-            if (output == "" && history != "") {
-                output = output == ""?
-                output:reverseNumberFormat(output);
-                if (isNaN(history[history.length-1])) {
-                    history = history.substr(0, history.length-1);
-                }
-            }
-            if (output != "" || history != "") {
-                output = reverseNumberFormat(output);
-                history = history + output;
-                if (this.id == "=") {
-                    var result = eval(history);
-                    printOutput(result);
-                    printHistory("");
-                }
-                else {
-                    history = history + this.id;
-                    printHistory(history);
-                    printOutput("");
-                }
-            }
-        }
-    });
-}
-
-var number = document.getElementsByClassName("number");
-for (var i = 0; i < number.length; i++) {
-    number[i].addEventListener('click', function () {
-        var output = reverseNumberFormat(getOutput());
-        if (output != NaN) {
-            output = output + this.id;
-            printOutput(output);
-        }
-    });
-}
-
-var dot = document.getElementById(".");
-dot.addEventListener("click", decimal);
-function decimal() { 
-    var output = reverseNumberFormat(getOutput());
-    output += this.id;
-    printOutput(output);
+  // If the `displayValue` does not contain a decimal point
+  if (!calculator.displayValue.includes(dot)) {
+    // Append the decimal point
+    calculator.displayValue += dot;
+  }
 }
 
 
-printOutput("");
+function handleOperator(nextOperator) {
+  const { firstOperand, displayValue, operator } = calculator
+  const inputValue = parseFloat(displayValue);
+
+  if (operator && calculator.waitingForSecondOperand) {
+    calculator.operator = nextOperator;
+    return;
+  }
+
+  if (firstOperand == null) {
+    calculator.firstOperand = inputValue;
+  } else if (operator) {
+    const currentValue = firstOperand || 0;
+    const result = performCalculation[operator](currentValue, inputValue);
+
+    calculator.displayValue = String(result);
+    calculator.firstOperand = result;
+  }
+
+  calculator.waitingForSecondOperand = true;
+  calculator.operator = nextOperator;
+}
+
+const performCalculation = {
+  '/': (firstOperand, secondOperand) => firstOperand / secondOperand,
+
+  '*': (firstOperand, secondOperand) => firstOperand * secondOperand,
+
+  '+': (firstOperand, secondOperand) => firstOperand + secondOperand,
+
+  '-': (firstOperand, secondOperand) => firstOperand - secondOperand,
+
+  '=': (firstOperand, secondOperand) => secondOperand
+};
+
+function resetCalculator() {
+  calculator.displayValue = '0';
+  calculator.historyValue = '';
+  calculator.firstOperand = null;
+  calculator.waitingForSecondOperand = false;
+  calculator.operator = null;
+}
+
+function updateDisplay() {
+  const display = document.querySelector('.output');
+  display.value = calculator.displayValue;
+}
+
+function updateHistory() {
+  const history = document.querySelector('.history');
+  if (calculator.operator == "=") {
+    history.value = "";
+    console.log("hi");
+  } else {
+    history.value = calculator.displayValue + " " + calculator.operator;
+  }
+}
+
+function backspaceDisplay() {
+  const display = document.querySelector('.output');
+  display.value = calculator.displayValue.slice(0, -1).toString();
+  calculator.displayValue = display.value;
+}
+
+updateDisplay();
+
+const keys = document.querySelector('.calculator-keys');
+keys.addEventListener('click', (event) => {
+  const { target } = event;
+  if (!target.matches('button')) {
+    return;
+  }
+
+  if (target.classList.contains('operator')) {
+    updateHistory();
+    handleOperator(target.value);
+    updateDisplay();
+    updateHistory();
+    return;
+  }
+
+  if (target.classList.contains('decimal')) {
+    inputDecimal(target.value);
+    updateDisplay();
+    return;
+  }
+
+  if (target.classList.contains('all-clear')) {
+    resetCalculator();
+    updateDisplay();
+    return;
+  }
+
+  if (target.classList.contains('backspace')) {
+    backspaceDisplay();
+    updateDisplay();
+    return;
+  }
+
+  inputDigit(target.value);
+  updateDisplay();
+});
