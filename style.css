@@ -42,6 +42,10 @@ input[type="text"] {
     width: 280px;
 }
 
+.history:hover {
+    color: black;
+}
+
 .output {
     text-align: right;
     height: 60px;

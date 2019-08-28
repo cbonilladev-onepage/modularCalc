@@ -60,6 +60,8 @@ const performCalculation = {
 
   '-': (firstOperand, secondOperand) => firstOperand - secondOperand,
 
+  '%': (firstOperand, secondOperand) => (firstOperand/100) * secondOperand,
+
   '=': (firstOperand, secondOperand) => secondOperand
 };
 
@@ -80,7 +82,6 @@ function updateHistory() {
   const history = document.querySelector('.history');
   if (calculator.operator == "=") {
     history.value = "";
-    console.log("hi");
   } else {
     history.value = calculator.displayValue + " " + calculator.operator;
   }
