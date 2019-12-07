@@ -10,3 +10,4 @@ Basic, fully-featured javascript calculator. Future updates will include a histo
 * Displaying inputs using event listeners. 
 * App refactoring.
 * Step by step debugging using Chrome dev tools. 
+* Basic JS design patterns. 
